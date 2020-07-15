@@ -1,5 +1,5 @@
 import { startOfHour } from 'date-fns';
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository } from 'typeorm';
 
 import Appointment from '../models/appointment';
 import AppointmentRepository from '../repositories/appointmentRepository';
@@ -15,7 +15,10 @@ interface IAppointmentRequest {
  * Dependency Inversion
  */
 class CreateAppointmentService {
-  public async execute({ date, provider }: IAppointmentRequest): Promise<Appointment> {
+  public async execute({
+    date,
+    provider,
+  }: IAppointmentRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
     const appointmentRepository = getCustomRepository(AppointmentRepository);
