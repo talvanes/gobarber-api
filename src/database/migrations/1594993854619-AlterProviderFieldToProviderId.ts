@@ -49,7 +49,7 @@ export default class AlterProviderFieldToProviderId1594993854619
     // Drop column 'provider_id'
     await queryRunner.dropColumn('appointments', 'provider_id');
 
-    // Add column 'provider', of type 'uuid', 'not null'
+    // Add column 'provider', of type 'varchar', 'not null'
     await queryRunner.addColumn(
       'appointments',
       new TableColumn({
