@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import User from '../models/user';
+import authConfig from '../config/auth';
 
 interface IRequest {
   email: string;
@@ -37,9 +38,10 @@ class AuthenticateUserSessionService {
     }
 
     // JWT Token
-    const token = sign({}, 'ddca663a3de84aa714d6b65e0673123b', {
+    const { secret, expiresIn } = authConfig.jwt;
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn,
     });
 
     // Return User credentials
