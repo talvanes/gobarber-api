@@ -1,6 +1,8 @@
 import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
+import AppError from '../errors/AppError';
+
 import User from '../models/user';
 
 interface IUserRequest {
@@ -20,7 +22,7 @@ class CreateUserService {
     });
 
     if (anotherUserExists) {
-      throw new Error('Email address already used.');
+      throw new AppError('Email address already used.');
     }
 
     // TODO "hide" password through cryptography
