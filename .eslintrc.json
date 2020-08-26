@@ -24,6 +24,7 @@
     ],
     "rules": {
       "camelcase": "off",
+      "@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always" }],
       "@typescript-eslint/no-unused-vars": ["error", {
         "argsIgnorePattern": "_"
       }],
