@@ -11,11 +11,6 @@ interface IAppointmentRequest {
   date: Date;
 }
 
-/*
- * SOLID
- * Single Responsibility
- * Dependency Inversion
- */
 class CreateAppointmentService {
   public async execute({
     date,
@@ -32,12 +27,10 @@ class CreateAppointmentService {
       throw new AppError('This appointment is already booked.');
     }
 
-    const appointment = appointmentRepository.create({
+    const appointment = await appointmentRepository.create({
       provider_id,
       date: appointmentDate,
     });
-
-    await appointmentRepository.save(appointment);
 
     return appointment;
   }
