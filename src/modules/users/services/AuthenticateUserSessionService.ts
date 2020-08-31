@@ -4,7 +4,9 @@ import { sign } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
+
 import User from '../infra/typeorm/entities/user';
+import IUserRepository from '../repositories/IUserRepository';
 
 interface IRequest {
   email: string;
@@ -17,14 +19,11 @@ interface IResponse {
 }
 
 class AuthenticateUserSessionService {
+  constructor(private usersRepository: IUserRepository) {}
+
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     // Check whether User is valid
-    const sessionRepository = getRepository(User);
-
-    const user = await sessionRepository.findOne({
-      where: { email },
-    });
-
+    const user = await this.usersRepository.findByEmail(email);
     if (!user) {
       throw new AppError('Incorrect email/password combination.');
     }
@@ -33,7 +32,6 @@ class AuthenticateUserSessionService {
     // user.password -> password "crypted"
     // password -> plain version
     const passwordMatched = await compare(password, user.password);
-
     if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination.');
     }
