@@ -32,12 +32,16 @@ class SendForgotPasswordEmailService {
     }
 
     // Generate user token
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
     // Send password recovery confirmation as email mesage
-    this.mailProvider.sendMail(
+    await this.mailProvider.sendMail(
       email,
-      'Pedido de recuperação de senha recebido.',
+      `
+      Pedido de recuperação de senha recebido.
+
+      Token: ${token}
+      `,
     );
   }
 }
