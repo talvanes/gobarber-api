@@ -2,7 +2,6 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import { isThisHour } from 'date-fns';
 import IUserRepository from '../repositories/IUserRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
