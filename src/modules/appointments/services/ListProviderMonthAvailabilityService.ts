@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
+import { getDaysInMonth, getDate } from 'date-fns';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
-import providerRouter from '../infra/http/routes/providers.routes';
 
 interface IRequest {
   provider_id: string;
@@ -11,7 +11,7 @@ interface IRequest {
 
 type IResponse = Array<{
   day: number;
-  availability: boolean;
+  available: boolean;
 }>;
 
 @injectable()
@@ -34,7 +34,27 @@ class ListProviderMonthAvailabilityService {
       },
     );
 
-    return [{ day: 1, availability: false }];
+    // List days in month (which one?)
+    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));
+
+    const eachDayArray = Array.from(
+      { length: numberOfDaysInMonth },
+      (_, index) => index + 1,
+    );
+
+    const availability = eachDayArray.map(day => {
+      const appointmentsInDay = appointments.filter(appointment => {
+        return getDate(appointment.date) === day;
+      });
+
+      // Since appointments are 8 a.m. to 5 p.m., there will be 10 appointments in a day
+      return {
+        day,
+        available: appointmentsInDay.length < 10,
+      };
+    });
+
+    return availability;
   }
 }
 
