@@ -28,8 +28,8 @@ export default class ListProviderAppointmentsService {
     month,
     year,
   }: IRequest): Promise<Appointment[]> {
-    const cacheData = await this.cacheProvider.recover('ad');
-    console.log(cacheData);
+    // const cacheData = await this.cacheProvider.recover('ad');
+    // console.log(cacheData);
 
     const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
       {
