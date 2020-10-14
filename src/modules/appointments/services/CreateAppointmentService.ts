@@ -44,7 +44,7 @@ class CreateAppointmentService {
 
     if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
       throw new AppError(
-        'You can only create appointment before 8 a.m. and 5 p.m.',
+        'You can only create appointment before 8 a.m. and after 5 p.m.',
       );
     }
 
